@@ -9,23 +9,40 @@ var port = process.env.PORT || 5000
 
 app.use(express.static(__dirname + "/"))
 
+
+
 var server = http.createServer(app)
 server.listen(port)
 
 console.log("http server listening on %d", port)
 
 var wss = new WebSocketServer({server: server})
+
+var clients = [];
+
 console.log("websocket server created")
 
 wss.on("connection", function(ws) {
-    var id = setInterval(function() {
-        ws.send(JSON.stringify(new Date()), function() {  })
-    }, 1000)
+
+
+    clients.push(ws)
 
     console.log("websocket connection open")
 
     ws.on("close", function() {
         console.log("websocket connection close")
-        clearInterval(id)
+        //clearInterval(id)
+        //clients.pop(this);
     })
+
+    ws.on('message', function(message) {
+        console.log('received: %s', message);
+
+        clients.forEach(function(client) {
+            client.send(JSON.stringify(message), function() {  });
+        });
+
+    });
+
+
 })

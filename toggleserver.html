@@ -23,19 +23,21 @@
        var host = location.origin.replace(/^http/, 'ws')
         var ws = new WebSocket(host);
 
-        function sendMessage(){
+        function startServer(){
 
+          //  var val = document.getElementById("message").value;
 
             ws.send(document.getElementById("message").value);
         }
 
        document.addEventListener("DOMContentLoaded", function(event) {
 
-           document.getElementById("send").onclick = sendMessage;
+           document.getElementById("send").onclick = startServer;
 
        });
 
        ws.onmessage = function (event) {
+           //alert('mes');
            var li = document.createElement('li');
            li.innerHTML = JSON.parse(event.data);
            document.querySelector('#pings').appendChild(li);
@@ -48,7 +50,7 @@
 <body>
 <input id="send" type="button" value="Send Message">
 <textarea id="message" name="message">// your message //</textarea>
-<h1>Messages</h1>
+<h1>Pings</h1>
 <ul id='pings'></ul>
 </body>
 </html>
