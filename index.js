@@ -32,7 +32,7 @@ wss.on("connection", function(ws) {
     ws.on("close", function() {
         console.log("websocket connection close")
         //clearInterval(id)
-        //clients.pop(this);
+        clients.pop(ws);
     })
 
     ws.on('message', function(message) {
