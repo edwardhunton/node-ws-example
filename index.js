@@ -24,14 +24,22 @@ console.log("websocket server created")
 
 wss.on("connection", function(ws) {
 
+    clients.forEach(function(client) {
+        client.send(JSON.stringify("Client Added"), function() {  });
+    });
+
 
     clients.push(ws)
+
+
 
     console.log("websocket connection open")
 
     ws.on("close", function() {
         console.log("websocket connection close")
-        //clearInterval(id)
+        clients.forEach(function(client) {
+            client.send(JSON.stringify("Client Disconnected"), function() {  });
+        });
         clients.pop(ws);
     })
 

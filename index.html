@@ -38,7 +38,12 @@
        ws.onmessage = function (event) {
            var li = document.createElement('li');
            li.innerHTML = JSON.parse(event.data);
-           document.querySelector('#pings').appendChild(li);
+           if(JSON.parse(event.data) == 'Client Added' || JSON.parse(event.data) == 'Client Disconnected'){
+               document.querySelector('#clients').appendChild(li);
+                   } else {
+               document.querySelector('#pings').appendChild(li);
+           }
+
        };
 
 
@@ -47,8 +52,10 @@
 </head>
 <body>
 <input id="send" type="button" value="Send Message">
-<textarea id="message" name="message">// your message //</textarea>
+<textarea id="message" name="message"> -- your message -- </textarea>
 <h1>Messages</h1>
 <ul id='pings'></ul>
+<h1>Clients</h1>
+<ul id='clients'></ul>
 </body>
 </html>
